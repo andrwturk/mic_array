@@ -72,10 +72,11 @@ class Pixels:
         self.dev.show()
 
 
-pixels = Pixels()
+
 
 
 if __name__ == '__main__':
+    pixels = Pixels()
     while True:
 
         try:
