@@ -172,6 +172,8 @@ def ledShowDirection(direction):
 
     for i in range(PIXELS_N):
         dev.set_pixel(i, int(pixels[4*i + 1]), int(pixels[4*i + 2]), int(pixels[4*i + 3]))
+    
+    dev.show()
 
 def test_8mic():
     import signal
