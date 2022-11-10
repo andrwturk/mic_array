@@ -21,8 +21,8 @@ class Pixels:
 
         self.dev = apa102.APA102(num_led=self.PIXELS_N)
         
-        # self.power = LED(5)
-        # self.power.on()
+        self.power = LED(5)
+        self.power.on()
 
         self.queue = Queue.Queue()
         self.thread = threading.Thread(target=self._run)
