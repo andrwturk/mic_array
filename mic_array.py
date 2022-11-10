@@ -17,7 +17,6 @@ MIC_DISTANCE_4 = 0.08127
 MAX_TDOA_4 = MIC_DISTANCE_4 / float(SOUND_SPEED)
 
 
-
 class MicArray(object):
 
     def __init__(self, rate=16000, channels=8, chunk_size=None):
@@ -142,8 +141,10 @@ class MicArray(object):
 def test_4mic():
     import signal
     import time
+    import pixels
 
     is_quit = threading.Event()
+    pixels = pixels.Pixels()
 
     def signal_handler(sig, num):
         is_quit.set()
@@ -154,26 +155,11 @@ def test_4mic():
     with MicArray(16000, 4, 16000 / 4)  as mic:
         for chunk in mic.read_chunks():
             direction = mic.get_direction(chunk)
-            ledShowDirection(direction)
+            pixels.wakeup(direction)
             print(int(direction))
 
             if is_quit.is_set():
                 break
-    
-def ledShowDirection(direction):
-
-    PIXELS_N = 12
-    dev = apa102.APA102(num_led=PIXELS_N)
-
-    position = int((direction + 15) / (360 / PIXELS_N)) % PIXELS_N
-
-    pixels = [0, 0, 0, 24] * PIXELS_N
-    pixels[position * 4 + 2] = 48
-
-    for i in range(PIXELS_N):
-        dev.set_pixel(i, int(pixels[4*i + 1]), int(pixels[4*i + 2]), int(pixels[4*i + 3]))
-    
-    dev.show()
 
 def test_8mic():
     import signal
