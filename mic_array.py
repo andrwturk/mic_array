@@ -137,14 +137,16 @@ class MicArray(object):
 
         return best_guess
 
+import pixels
+pixels = pixels.Pixels()
 
 def test_4mic():
     import signal
     import time
-    import pixels
+    
 
     is_quit = threading.Event()
-    pixels = pixels.Pixels()
+    
 
     def signal_handler(sig, num):
         is_quit.set()
@@ -155,7 +157,7 @@ def test_4mic():
     with MicArray(16000, 4, 16000 / 4)  as mic:
         for chunk in mic.read_chunks():
             direction = mic.get_direction(chunk)
-            pixels.wakeup(direction)
+            pixels.wakeup()
             print(int(direction))
 
             if is_quit.is_set():
