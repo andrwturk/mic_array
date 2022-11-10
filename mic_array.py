@@ -6,7 +6,6 @@ import threading
 import numpy as np
 from gcc_phat import gcc_phat
 import math
-import apa102
 
 SOUND_SPEED = 343.2
 
