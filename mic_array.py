@@ -142,6 +142,7 @@ class MicArray(object):
 def test_4mic():
     import signal
     import time
+    from pixel_ring import pixel_ring
 
     is_quit = threading.Event()
 
@@ -154,10 +155,13 @@ def test_4mic():
     with MicArray(16000, 4, 16000 / 4)  as mic:
         for chunk in mic.read_chunks():
             direction = mic.get_direction(chunk)
+            pixel_ring.set_direction(direction)
             print(int(direction))
 
             if is_quit.is_set():
                 break
+    
+    pixel_ring.off()
 
 
 def test_8mic():
