@@ -6,7 +6,7 @@ import threading
 import numpy as np
 from gcc_phat import gcc_phat
 import math
-
+import apa102
 
 SOUND_SPEED = 343.2
 
@@ -142,7 +142,6 @@ class MicArray(object):
 def test_4mic():
     import signal
     import time
-    from pixel_ring import pixel_ring
 
     is_quit = threading.Event()
 
@@ -155,14 +154,24 @@ def test_4mic():
     with MicArray(16000, 4, 16000 / 4)  as mic:
         for chunk in mic.read_chunks():
             direction = mic.get_direction(chunk)
-            pixel_ring.set_direction(direction)
+            ledShowDirection(direction)
             print(int(direction))
 
             if is_quit.is_set():
                 break
     
-    pixel_ring.off()
+def ledShowDirection(direction):
 
+    PIXELS_N = 12
+    dev = apa102.APA102(num_led=PIXELS_N)
+
+    position = int((direction + 15) / (360 / PIXELS_N)) % PIXELS_N
+
+    pixels = [0, 0, 0, 24] * PIXELS_N
+    pixels[position * 4 + 2] = 48
+
+    for i in range(PIXELS_N):
+        dev.set_pixel(i, int(pixels[4*i + 1]), int(pixels[4*i + 2]), int(pixels[4*i + 3]))
 
 def test_8mic():
     import signal
